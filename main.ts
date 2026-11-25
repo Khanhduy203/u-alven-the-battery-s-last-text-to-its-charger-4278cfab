@@ -20,6 +20,12 @@ if (ENTRY.length > 200) {
 if (ENTRY.includes("\n") || ENTRY.includes("\r")) {
   throw new Error("entry must be a single line of plain text");
 }
+if (ENTRY !== ENTRY.trim()) {
+  throw new Error("entry must not start or end with whitespace");
+}
+if (/[\u0000-\u001f\u007f]/.test(ENTRY)) {
+  throw new Error("entry must not contain control characters");
+}
 
 const outDir =
   process.env.MAKEFUN_OUTPUT_DIR ?? join(process.cwd(), "output");
